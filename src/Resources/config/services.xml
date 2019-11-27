@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="true" autowire="true" autoconfigure="true" />
+
+        <service id="hola.oauth2.loginradius.authenticator" class="Hola\OAuth2\Security\Authenticator\LoginRadiusAuthenticator" public="true">
+            <argument key="$clientRegistry" type="service" id="knpu.oauth2.registry" on-invalid="ignore"/>
+            <argument key="$router" type="service" id="router"/>
+        </service>
+
+        <service id="hola.oauth2.loginradius.voter" class="Hola\OAuth2\Security\Authorization\Voter\OAuthLoginRadiusAuthenticatedVoter" public="true">
+            <argument key="$authTrustResolver" type="service" id="security.authentication.trust_resolver" />
+            <tag name="security.voter"/>
+        </service>
+
+        <service id="hola.oauth2.loginradius.logout.handler" class="Hola\OAuth2\Security\Handler\OAuthLoginRadiusLogoutHandler" public="true">
+            <argument key="$clientRegistry" type="service" id="knpu.oauth2.registry" on-invalid="ignore"/>
+        </service>
+
+    </services>
+</container>
