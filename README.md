@@ -13,7 +13,7 @@ This package provides LoginRadius OAuth 2.0 support for the PHP League's [OAuth 
 To install, use composer:
 
 ```
-composer requirehola/oauth2-loginradius
+composer require developer-hola/oauth2-loginradius
 ```
 
 ## Usage
