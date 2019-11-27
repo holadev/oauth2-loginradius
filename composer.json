@@ -1,5 +1,5 @@
 {
-    "name": "hola/oauth2-loginradius",
+    "name": "developer-hola/oauth2-loginradius",
     "description": "LoginRadius OAuth 2.0 Client Provider for The knpuniversity/oauth2-client-bundle",
     "license": "MIT",
     "authors": [
