@@ -74,6 +74,20 @@ Add this interfaces to your User entity:
 ```php
 class User implements UserInterface, \Serializable , OauthUserInterface
 ```
+
+Your user provider must implement the interface UseLoaderInterface, like this:
+
+```php
+class UserRepository extends ServiceEntityRepository implements UserLoaderInterface
+{
+    public function loadUserByUsername($username)
+    {
+        return $this->findOneBy(['email' => $username]);
+
+    }
+}
+```
+
 The OauthUserInterface allows the system to save the AccessToken of the user to check the this token is valid in each request.
 
 Create a controller with to routes: **connect_loginradius_start** and **connect_loginradius_check** :

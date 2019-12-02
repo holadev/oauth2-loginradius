@@ -4,6 +4,7 @@ namespace Hola\OAuth2\Security\Authenticator;
 
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use KnpU\OAuth2ClientBundle\Security\User\OAuthUser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -39,12 +40,13 @@ class LoginRadiusAuthenticator extends SocialAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+        $client = $this->clientRegistry->getClient('loginradius_oauth');
 
-        return $userProvider->loadUserByUsername(
-            $this->getLoginRadiusClient()->fetchUserFromToken($credentials)
-                ->getEmail()
-        );
+        $userData = $this->getLoginRadiusClient()->fetchUserFromToken($credentials);
+        $user = new OAuthUser($userData->getEmail(),["ROLE_USER","ROLE_OAUTH_USER"]);
+        return $user;
     }
+
 
 
     private function getLoginRadiusClient()
