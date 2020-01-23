@@ -25,26 +25,42 @@ class OAuthLoginRadiusAuthenticatedVoter extends AuthenticatedVoter
         ClientRegistry $clientRegistry
     ) {
         $this->authTrustResolver = $authTrustResolver;
-        $this->userProvider =$clientRegistry->getClient('loginradius_oauth')->getOAuth2Provider();
+        $this->userProvider = $clientRegistry->getClient('loginradius_oauth')->getOAuth2Provider();
     }
+
     public function vote(TokenInterface $token, $subject, array $attributes)
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
-        if (isset($subject) && $this->supports($subject) && $token && $token->getUser()) {
-            if ($token->getUser() instanceof OauthUserInterface) {
-                $user = $token->getUser();
-                try {
-                    $this->userProvider->validateAccessToken($user->getAccessToken());
-                } catch (LoginRadiusProviderException $e) {
-                    $result = VoterInterface::ACCESS_DENIED;
-                }
+
+        if ($this->checkHasToVote($token, $subject)) {
+            $user = $token->getUser();
+            try {
+                $this->userProvider->validateAccessToken($user->getAccessToken());
+            } catch (LoginRadiusProviderException $e) {
+                $result = VoterInterface::ACCESS_DENIED;
             }
         }
         return $result;
     }
 
-    public function supports(Request $request)
+    /**
+     * @param TokenInterface $token
+     * @param $subject
+     * @return bool
+     */
+    public function checkHasToVote(TokenInterface $token, $subject)
     {
-        return $request->attributes->get('_route')!== 'connect_loginradius_check';
+        $existsSubject = isset($subject);
+        $supportsSubject = $this->supports($subject);
+        $isUser = $token && $token->getUser() && $token->getUser() instanceof OauthUserInterface;
+
+        return (bool)($existsSubject && $supportsSubject && $isUser);
+    }
+
+    public function supports($subject)
+    {
+        if ($subject instanceof Request) {
+            return $subject->attributes->get('_route') !== 'connect_loginradius_check';
+        }
     }
 }
