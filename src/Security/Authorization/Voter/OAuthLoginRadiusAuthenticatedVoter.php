@@ -17,8 +17,8 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverIn
  */
 class OAuthLoginRadiusAuthenticatedVoter extends AuthenticatedVoter
 {
-    private $authTrustResolver;
-    private $userProvider;
+    protected $authTrustResolver;
+    protected $userProvider;
 
     public function __construct(
         AuthenticationTrustResolverInterface $authTrustResolver,
@@ -28,6 +28,12 @@ class OAuthLoginRadiusAuthenticatedVoter extends AuthenticatedVoter
         $this->userProvider = $clientRegistry->getClient('loginradius_oauth')->getOAuth2Provider();
     }
 
+    /**
+     * @param TokenInterface $token
+     * @param $subject
+     * @param array $attributes
+     * @return mixed
+     */
     public function vote(TokenInterface $token, $subject, array $attributes)
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
@@ -35,11 +41,15 @@ class OAuthLoginRadiusAuthenticatedVoter extends AuthenticatedVoter
         if ($this->checkHasToVote($token, $subject)) {
             $user = $token->getUser();
             try {
+                $this->checkUserToken($user, $token);
                 $this->userProvider->validateAccessToken($user->getAccessToken());
             } catch (LoginRadiusProviderException $e) {
                 $result = VoterInterface::ACCESS_DENIED;
+            } catch (\Exception $e) {
+                $result = VoterInterface::ACCESS_DENIED;
             }
         }
+
         return $result;
     }
 
@@ -54,7 +64,7 @@ class OAuthLoginRadiusAuthenticatedVoter extends AuthenticatedVoter
         $supportsSubject = $this->supports($subject);
         $isUser = $token && $token->getUser() && $token->getUser() instanceof OauthUserInterface;
 
-        return (bool)($existsSubject && $supportsSubject && $isUser);
+        return (bool) ($existsSubject && $supportsSubject && $isUser);
     }
 
     public function supports($subject)
@@ -62,5 +72,20 @@ class OAuthLoginRadiusAuthenticatedVoter extends AuthenticatedVoter
         if ($subject instanceof Request) {
             return $subject->attributes->get('_route') !== 'connect_loginradius_check';
         }
+    }
+
+    /**
+     * @param UserInterface $user
+     * @param TokenInterface $token
+     * @return bool
+     * @throws \Exception
+     */
+    public function checkUserToken(UserInterface $user, TokenInterface $token)
+    {
+        if (!$user || !$token) {
+            throw new \Exception('Invalid token');
+        }
+
+        return true;
     }
 }

@@ -30,7 +30,7 @@ class LoginRadiusAuthenticator extends SocialAuthenticator
 
     public function supports(Request $request)
     {
-        return $request->attributes->get('_route')=== 'connect_loginradius_check';
+        return $request->attributes->get('_route') === 'connect_loginradius_check';
     }
 
     public function getCredentials(Request $request)
@@ -43,11 +43,9 @@ class LoginRadiusAuthenticator extends SocialAuthenticator
         $client = $this->clientRegistry->getClient('loginradius_oauth');
 
         $userData = $this->getLoginRadiusClient()->fetchUserFromToken($credentials);
-        $user = new OAuthUser($userData->getEmail(),["ROLE_USER","ROLE_OAUTH_USER"]);
+        $user = new OAuthUser($userData->getEmail(), ["ROLE_USER", "ROLE_OAUTH_USER"]);
         return $user;
     }
-
-
 
     private function getLoginRadiusClient()
     {

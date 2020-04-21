@@ -1,4 +1,5 @@
 <?php
+
 namespace Hola\OAuth2\Client\Provider;
 
 use Hola\OAuth2\Client\Provider\Exception\LoginRadiusProviderException;
@@ -22,22 +23,22 @@ class LoginRadiusProvider extends AbstractProvider
 
     public function getBaseAuthorizationUrl()
     {
-        return $this->domain.'/sso/oauth/redirect';
+        return $this->domain . '/sso/oauth/redirect';
     }
 
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->domain.'/sso/oauth/access_token';
+        return $this->domain . '/sso/oauth/access_token';
     }
 
     public function getBaseAccessTokenValidateUrl()
     {
-        return $this->apiDomain.'/identity/v2/auth/access_token/Validate';
+        return $this->apiDomain . '/identity/v2/auth/access_token/Validate';
     }
 
     public function getBaseRevokeTokenUrl()
     {
-        return $this->apiDomain.'/identity/v2/auth/access_token/invalidate';
+        return $this->apiDomain . '/identity/v2/auth/access_token/invalidate';
     }
 
     protected function getRevokeAccessTokenMethod()
@@ -67,14 +68,15 @@ class LoginRadiusProvider extends AbstractProvider
     {
         return $this->getRevokeAccessToken(['access_token' => $accessToken]);
     }
+
     public function getRevokeAccessToken(array $options = [])
     {
         $params = [
-            'apiKey'     => $this->clientId,
-            'access_token'  => $options['access_token'],
-            'preventRefresh'  => "true"
+            'apiKey' => $this->clientId,
+            'access_token' => $options['access_token'],
+            'preventRefresh' => "true"
         ];
-        $request  = $this->getRevokeAccessTokenRequest($params);
+        $request = $this->getRevokeAccessTokenRequest($params);
 
         $response = $this->getParsedResponse($request);
 
@@ -88,11 +90,12 @@ class LoginRadiusProvider extends AbstractProvider
 
     protected function getRevokeAccessTokenRequest(array $params)
     {
-        $method  = $this->getRevokeAccessTokenMethod();
-        $url     = $this->getBaseRevokeTokenUrl($params);
+        $method = $this->getRevokeAccessTokenMethod();
+        $url = $this->getBaseRevokeTokenUrl($params);
 
-        return $this->getRequest($method, $url.'?'.$this->buildQueryString($params), []);
+        return $this->getRequest($method, $url . '?' . $this->buildQueryString($params), []);
     }
+
     protected function getRevokeAccessTokenUrl(array $params)
     {
         $url = $this->getBaseRevokeTokenUrl($params);
@@ -115,25 +118,26 @@ class LoginRadiusProvider extends AbstractProvider
     /**
      * Get provider url to fetch user details
      *
-     * @param  AccessToken $token
+     * @param AccessToken $token
      *
      * @return string
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return $this->apiDomain .'/identity/v2/auth/account';
+        return $this->apiDomain . '/identity/v2/auth/account';
     }
 
     public function getAuthenticatedRequest($method, $url, $token, array $options = [])
     {
 
-        return $this->createRequest($method, $url.'?apiKey='.$this->clientId, $token, $options);
+        return $this->createRequest($method, $url . '?apiKey=' . $this->clientId, $token, $options);
     }
 
     protected function getAuthorizationHeaders($token = null)
     {
-        return ['Authorization'=> 'Bearer '.$token];
+        return ['Authorization' => 'Bearer ' . $token];
     }
+
     /**
      * Get the default scopes used by this provider.
      *
