@@ -75,12 +75,12 @@ class OAuthLoginRadiusAuthenticatedVoter extends AuthenticatedVoter
     }
 
     /**
-     * @param UserInterface $user
+     * @param OauthUserInterface $user
      * @param TokenInterface $token
      * @return bool
      * @throws \Exception
      */
-    public function checkUserToken(UserInterface $user, TokenInterface $token)
+    public function checkUserToken(OauthUserInterface $user, TokenInterface $token)
     {
         if (!$user || !$token) {
             throw new \Exception('Invalid token');
