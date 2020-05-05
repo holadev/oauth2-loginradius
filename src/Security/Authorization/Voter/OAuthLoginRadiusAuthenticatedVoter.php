@@ -42,7 +42,7 @@ class OAuthLoginRadiusAuthenticatedVoter extends AuthenticatedVoter
             $user = $token->getUser();
             try {
                 $this->checkUserToken($user, $token);
-                $this->userProvider->validateAccessToken($user->getAccessToken());
+                $this->userProvider->validateAccessToken($token->getCredentials());
             } catch (LoginRadiusProviderException $e) {
                 $result = VoterInterface::ACCESS_DENIED;
             } catch (\Exception $e) {
@@ -75,12 +75,12 @@ class OAuthLoginRadiusAuthenticatedVoter extends AuthenticatedVoter
     }
 
     /**
-     * @param UserInterface $user
+     * @param OauthUserInterface $user
      * @param TokenInterface $token
      * @return bool
      * @throws \Exception
      */
-    public function checkUserToken(UserInterface $user, TokenInterface $token)
+    public function checkUserToken(OauthUserInterface $user, TokenInterface $token)
     {
         if (!$user || !$token) {
             throw new \Exception('Invalid token');
