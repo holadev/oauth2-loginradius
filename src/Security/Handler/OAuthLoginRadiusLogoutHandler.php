@@ -36,22 +36,8 @@ class OAuthLoginRadiusLogoutHandler implements LogoutHandlerInterface
         Response $response,
         TokenInterface $token
     ) {
-        $isMultiSession = $this->checkTokenInSession($token);
-        $accessToken = $token->getUser()->getAccessToken();
-
-        if ($isMultiSession) {
-            $accessToken = $token->getAttribute("oauthToken")->getToken();
-        }
+        $accessToken = $token->getCredentials();
 
         return $this->userProvider->logout($accessToken);
-    }
-
-    /**
-     * @param TokenInterface $token
-     * @return bool
-     */
-    public function checkTokenInSession($token)
-    {
-        return (bool) !empty($token->getAttribute("oauthToken"));
     }
 }
