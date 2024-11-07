@@ -1,12 +1,12 @@
 {
-    "name": "developer-hola/oauth2-loginradius",
+    "name": "holadev/oauth2-loginradius",
     "description": "LoginRadius OAuth 2.0 Client Provider for The knpuniversity/oauth2-client-bundle",
     "license": "MIT",
     "authors": [
         {
             "name": "Hola SL",
             "email": "desarrollo@hola.com",
-            "homepage": "https://github.com/developer-hola"
+            "homepage": "https://github.com/holadev"
         }
     ],
     "keywords": [
