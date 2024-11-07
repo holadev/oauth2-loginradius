@@ -1,10 +1,10 @@
 # LoginRadius Provider for OAuth 2.0 Client
-[![Latest Version](https://img.shields.io/github/v/release/developer-hola/oauth2-loginradius.svg?style=flat-square)](https://github.com/developer-hola/oauth2-loginradius/releases)
+[![Latest Version](https://img.shields.io/github/v/release/holadev/oauth2-loginradius.svg?style=flat-square)](https://github.com/holadev/oauth2-loginradius/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/developer-hola/oauth2-loginradius/master.svg?style=flat-square)](https://travis-ci.org/developer-hola/oauth2-loginradius)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/developer-hola/oauth2-loginradius.svg?style=flat-square)](https://scrutinizer-ci.com/g/developer-hola/oauth2-loginradius/code-structure)
-[![Quality Score](https://img.shields.io/scrutinizer/g/developer-hola/oauth2-loginradius.svg?style=flat-square)](https://scrutinizer-ci.com/g/developer-hola/oauth2-loginradius)
-[![Total Downloads](https://img.shields.io/packagist/dt/developer-hola/oauth2-loginradius.svg?style=flat-square)](https://packagist.org/packages/developer-hola/oauth2-loginradius)
+[![Build Status](https://img.shields.io/travis/holadev/oauth2-loginradius/master.svg?style=flat-square)](https://travis-ci.org/holadev/oauth2-loginradius)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/holadev/oauth2-loginradius.svg?style=flat-square)](https://scrutinizer-ci.com/g/holadev/oauth2-loginradius/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/holadev/oauth2-loginradius.svg?style=flat-square)](https://scrutinizer-ci.com/g/holadev/oauth2-loginradius)
+[![Total Downloads](https://img.shields.io/packagist/dt/holadev/oauth2-loginradius.svg?style=flat-square)](https://packagist.org/packages/holadev/oauth2-loginradius)
 
 This package provides LoginRadius OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
 
@@ -13,7 +13,7 @@ This package provides LoginRadius OAuth 2.0 support for the PHP League's [OAuth 
 To install, use composer:
 
 ```
-composer require developer-hola/oauth2-loginradius
+composer require holadev/oauth2-loginradius
 ```
 
 ## Usage
